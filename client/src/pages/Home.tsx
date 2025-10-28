@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { trpc } from "@/lib/trpc";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -76,6 +77,8 @@ export default function Home() {
     return debts.reduce((sum, debt) => sum + debt, 0);
   };
 
+  const submitMutation = trpc.submission.create.useMutation();
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -107,16 +110,88 @@ export default function Home() {
 
     setIsSubmitting(true);
 
-    // Simulate submission
-    setTimeout(() => {
+    try {
+      // Convert file to base64
+      const fileData = await new Promise<string>((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result as string);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+
+      // Submit to backend
+      const result = await submitMutation.mutateAsync({
+        accountantName: formData.fullName,
+        accountantEmail: formData.email,
+        accountantPhone: formData.phone,
+        clientEmail: formData.clientEmail,
+        clientPhone: formData.clientPhone,
+        propertyType: formData.propertyType as "primary" | "investment",
+        currentPayment: formData.currentPayment,
+        currentRate: formData.currentRate,
+        remainingBalance: formData.remainingBalance,
+        yearsRemaining: formData.yearsRemaining,
+        hasHelocOrLiens: formData.hasHelocOrLiens as "yes" | "no",
+        creditCardPayments: formData.creditCardPayments,
+        autoLoans: formData.autoLoans,
+        personalLoans: formData.personalLoans,
+        studentLoans: formData.studentLoans,
+        otherDebts: formData.otherDebts,
+        totalMonthlyDebt: calculateTotalDebt().toString(),
+        goalLowerPayment: formData.goals.lowerPayment,
+        goalPayOffDebt: formData.goals.payOffDebt,
+        goalAccessEquity: formData.goals.accessEquity,
+        goalShortenTerm: formData.goals.shortenTerm,
+        goalOther: formData.goals.other,
+        goalOtherText: formData.otherGoalText,
+        mortgageStatementData: fileData,
+        mortgageStatementFilename: file.name,
+        mortgageStatementMimeType: file.type,
+      });
+
       setIsSubmitting(false);
-      toast.success("Your Financial Health Check-Up has been submitted successfully!");
       
-      // Log data for demonstration (in production, this would be sent to a server)
-      console.log("Form Data:", formData);
-      console.log("Total Monthly Debt:", calculateTotalDebt());
-      console.log("Uploaded File:", file.name);
-    }, 1500);
+      if (result.emailSent) {
+        toast.success("Your Financial Health Check-Up has been submitted successfully! A loan officer will contact you soon.");
+      } else {
+        toast.success("Your Financial Health Check-Up has been submitted successfully!");
+        toast.info("Note: Email notification may be delayed. We'll contact you soon.");
+      }
+
+      // Reset form
+      setFormData({
+        fullName: "",
+        email: "",
+        phone: "",
+        clientEmail: "",
+        clientPhone: "",
+        propertyType: "primary",
+        currentPayment: "",
+        currentRate: "",
+        remainingBalance: "",
+        yearsRemaining: "",
+        hasHelocOrLiens: "",
+        creditCardPayments: "",
+        autoLoans: "",
+        personalLoans: "",
+        studentLoans: "",
+        otherDebts: "",
+        goals: {
+          lowerPayment: false,
+          payOffDebt: false,
+          accessEquity: false,
+          shortenTerm: false,
+          other: false,
+        },
+        otherGoalText: "",
+        consent: false,
+      });
+      setFile(null);
+    } catch (error) {
+      setIsSubmitting(false);
+      console.error("Submission error:", error);
+      toast.error("Failed to submit form. Please try again.");
+    }
   };
 
   const totalDebt = calculateTotalDebt();

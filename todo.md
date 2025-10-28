@@ -26,3 +26,15 @@
 - [x] Review all verbiage for lending compliance
 - [x] Add privacy policy link to footer
 - [x] Create security documentation (SECURITY.md)
+- [x] Push documentation and codebase info to Notion
+- [x] Upgrade project to include backend server (web-db-user feature)
+- [x] Create database schema for form submissions
+- [x] Push database schema changes to production
+- [x] Implement email sending functionality to clawson@genevafi.com
+- [x] Create professional HTML email template for lead intake
+- [x] Implement file upload to S3 for mortgage statements
+- [x] Create tRPC API endpoints for form submission
+- [x] Connect frontend form to backend API
+- [ ] Test complete form submission flow with real data
+- [ ] Verify email delivery and formatting
+- [ ] Push all backend changes to GitHub
