@@ -14,3 +14,6 @@
 - [x] Change name from "Financial Health Assessment" to "Financial Health Check-Up"
 - [x] Optimize copy and messaging for maximum engagement based on user psychology
 - [ ] Update page title in website settings (user action required)
+- [x] Add client's email field (separate from contact email)
+- [x] Add client's phone number field (separate from contact phone)
+- [x] Add yes/no question about HELOCs or liens on property

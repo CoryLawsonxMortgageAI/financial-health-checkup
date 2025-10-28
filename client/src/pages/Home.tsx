@@ -14,11 +14,14 @@ export default function Home() {
     fullName: "",
     email: "",
     phone: "",
+    clientEmail: "",
+    clientPhone: "",
     propertyType: "primary",
     currentPayment: "",
     currentRate: "",
     remainingBalance: "",
     yearsRemaining: "",
+    hasHelocOrLiens: "",
     creditCardPayments: "",
     autoLoans: "",
     personalLoans: "",
@@ -82,6 +85,16 @@ export default function Home() {
       return;
     }
 
+    if (!formData.clientEmail || !formData.clientPhone) {
+      toast.error("Please fill in all required client information");
+      return;
+    }
+
+    if (!formData.hasHelocOrLiens) {
+      toast.error("Please indicate if the property has any HELOCs or liens");
+      return;
+    }
+
     if (!formData.consent) {
       toast.error("Please provide consent to review your financial information");
       return;
@@ -121,16 +134,16 @@ export default function Home() {
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Section 1: Client Information */}
+          {/* Section 1: Contact Information */}
           <Card>
             <CardHeader>
-              <CardTitle>Contact Information</CardTitle>
-              <CardDescription>Please provide your basic contact details</CardDescription>
+              <CardTitle>Your Contact Information</CardTitle>
+              <CardDescription>Tax accountant - please provide your contact details</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="grid md:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="fullName">Full Name *</Label>
+                  <Label htmlFor="fullName">Your Full Name *</Label>
                   <Input
                     id="fullName"
                     name="fullName"
@@ -141,7 +154,7 @@ export default function Home() {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="email">Email Address *</Label>
+                  <Label htmlFor="email">Your Email Address *</Label>
                   <Input
                     id="email"
                     name="email"
@@ -153,50 +166,84 @@ export default function Home() {
                   />
                 </div>
               </div>
-              <div className="grid md:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="phone">Phone Number *</Label>
-                  <Input
-                    id="phone"
-                    name="phone"
-                    type="tel"
-                    value={formData.phone}
-                    onChange={handleInputChange}
-                    placeholder="(555) 123-4567"
-                    required
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label>Property Type</Label>
-                  <RadioGroup
-                    value={formData.propertyType}
-                    onValueChange={(value) =>
-                      setFormData((prev) => ({ ...prev, propertyType: value }))
-                    }
-                  >
-                    <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="primary" id="primary" />
-                      <Label htmlFor="primary" className="font-normal cursor-pointer">
-                        Primary Residence
-                      </Label>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="investment" id="investment" />
-                      <Label htmlFor="investment" className="font-normal cursor-pointer">
-                        Investment Property
-                      </Label>
-                    </div>
-                  </RadioGroup>
-                </div>
+              <div className="space-y-2">
+                <Label htmlFor="phone">Your Phone Number *</Label>
+                <Input
+                  id="phone"
+                  name="phone"
+                  type="tel"
+                  value={formData.phone}
+                  onChange={handleInputChange}
+                  placeholder="(555) 123-4567"
+                  required
+                />
               </div>
             </CardContent>
           </Card>
 
-          {/* Section 2: Current Mortgage Details */}
+          {/* Section 2: Client Information */}
+          <Card>
+            <CardHeader>
+              <CardTitle>Client Information</CardTitle>
+              <CardDescription>Please provide your client's contact details</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="grid md:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="clientEmail">Client's Email Address *</Label>
+                  <Input
+                    id="clientEmail"
+                    name="clientEmail"
+                    type="email"
+                    value={formData.clientEmail}
+                    onChange={handleInputChange}
+                    placeholder="client@example.com"
+                    required
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="clientPhone">Client's Phone Number *</Label>
+                  <Input
+                    id="clientPhone"
+                    name="clientPhone"
+                    type="tel"
+                    value={formData.clientPhone}
+                    onChange={handleInputChange}
+                    placeholder="(555) 987-6543"
+                    required
+                  />
+                </div>
+              </div>
+              <div className="space-y-2">
+                <Label>Property Type</Label>
+                <RadioGroup
+                  value={formData.propertyType}
+                  onValueChange={(value) =>
+                    setFormData((prev) => ({ ...prev, propertyType: value }))
+                  }
+                >
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="primary" id="primary" />
+                    <Label htmlFor="primary" className="font-normal cursor-pointer">
+                      Primary Residence
+                    </Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="investment" id="investment" />
+                    <Label htmlFor="investment" className="font-normal cursor-pointer">
+                      Investment Property
+                    </Label>
+                  </div>
+                </RadioGroup>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Section 3: Current Mortgage Details */}
           <Card>
             <CardHeader>
               <CardTitle>Current Mortgage Details</CardTitle>
-              <CardDescription>Information about your existing mortgage</CardDescription>
+              <CardDescription>Information about the client's existing mortgage</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="grid md:grid-cols-2 gap-4">
@@ -258,14 +305,36 @@ export default function Home() {
                   />
                 </div>
               </div>
+              <div className="space-y-2">
+                <Label>Does the property have any HELOCs or liens attached? *</Label>
+                <RadioGroup
+                  value={formData.hasHelocOrLiens}
+                  onValueChange={(value) =>
+                    setFormData((prev) => ({ ...prev, hasHelocOrLiens: value }))
+                  }
+                >
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="yes" id="heloc-yes" />
+                    <Label htmlFor="heloc-yes" className="font-normal cursor-pointer">
+                      Yes
+                    </Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="no" id="heloc-no" />
+                    <Label htmlFor="heloc-no" className="font-normal cursor-pointer">
+                      No
+                    </Label>
+                  </div>
+                </RadioGroup>
+              </div>
             </CardContent>
           </Card>
 
-          {/* Section 3: Monthly Expenses */}
+          {/* Section 4: Monthly Expenses */}
           <Card>
             <CardHeader>
               <CardTitle>Monthly Debt Obligations</CardTitle>
-              <CardDescription>List all your monthly debt payments</CardDescription>
+              <CardDescription>List all of the client's monthly debt payments</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="grid md:grid-cols-2 gap-4">
@@ -363,11 +432,11 @@ export default function Home() {
             </CardContent>
           </Card>
 
-          {/* Section 4: Financial Goals */}
+          {/* Section 5: Financial Goals */}
           <Card>
             <CardHeader>
               <CardTitle>Financial Goals</CardTitle>
-              <CardDescription>What are you hoping to achieve? (Select all that apply)</CardDescription>
+              <CardDescription>What is the client hoping to achieve? (Select all that apply)</CardDescription>
             </CardHeader>
             <CardContent className="space-y-3">
               <div className="flex items-center space-x-2">
@@ -434,11 +503,11 @@ export default function Home() {
             </CardContent>
           </Card>
 
-          {/* Section 5: Document Upload */}
+          {/* Section 6: Document Upload */}
           <Card>
             <CardHeader>
               <CardTitle>Upload Mortgage Statement</CardTitle>
-              <CardDescription>Please upload your most recent mortgage statement (PDF, JPG, or PNG - Max 10MB)</CardDescription>
+              <CardDescription>Please upload the client's most recent mortgage statement (PDF, JPG, or PNG - Max 10MB)</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-indigo-400 transition-colors">
@@ -466,7 +535,7 @@ export default function Home() {
             </CardContent>
           </Card>
 
-          {/* Section 6: Consent and Submit */}
+          {/* Section 7: Consent and Submit */}
           <Card>
             <CardContent className="pt-6">
               <div className="space-y-4">
