@@ -547,8 +547,8 @@ export default function Home() {
                       setFormData((prev) => ({ ...prev, consent: checked as boolean }))
                     }
                   />
-                  <Label htmlFor="consent" className="font-normal cursor-pointer leading-relaxed">
-                    Yes, I'd like a loan officer to review my information and show me personalized savings opportunities. This is completely free with no obligation.
+                  <Label htmlFor="consent" className="text-sm leading-relaxed cursor-pointer">
+                    I authorize a loan officer to review my financial information and contact me regarding potential refinancing opportunities. I understand this is a free consultation with no obligation to proceed.
                   </Label>
                 </div>
                 <Button
@@ -557,14 +557,18 @@ export default function Home() {
                   className="w-full"
                   disabled={isSubmitting}
                 >
-                  {isSubmitting ? "Submitting..." : "Get My Savings Analysis"}
+                  {isSubmitting ? "Submitting..." : "Submit for Analysis"}
                 </Button>
               </div>
             </CardContent>
           </Card>
 
           <div className="mt-8 text-center text-sm text-gray-600">
-            🔒 Your information is 100% secure and confidential. We respect your privacy.
+            <p className="font-semibold">Your information is secure and confidential.</p>
+            <p className="mt-1">We respect your privacy and protect your data in compliance with federal regulations.</p>
+            <p className="mt-2">
+              <a href="/privacy-policy" className="text-blue-600 hover:underline">View our Privacy Policy</a>
+            </p>
           </div>
         </form>
 
@@ -586,12 +590,16 @@ export default function Home() {
               <div className="font-semibold mb-2">Licensed in: Ohio, Florida, Michigan</div>
               <div className="max-w-3xl mx-auto text-left space-y-2">
                 <p>
-                  Geneva Financial, LLC is an Equal Housing Opportunity lender. All loans are subject to underwriting approval and program availability. 
+                  Geneva Financial, LLC (NMLS #42056) is an Equal Housing Opportunity lender. All loans are subject to underwriting approval and program availability. 
                   This is not a commitment to lend or extend credit. Information and/or dates are subject to change without notice. 
-                  All borrowers must meet minimum credit and underwriting requirements.
+                  All borrowers must meet minimum credit and underwriting requirements. Not all products are available in all states.
                 </p>
                 <p>
                   For licensing information, visit <a href="https://www.nmlsconsumeraccess.org" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">www.nmlsconsumeraccess.org</a>
+                </p>
+                <p className="mt-2">
+                  <a href="/privacy-policy" className="text-blue-600 hover:underline">Privacy Policy</a> | 
+                  By submitting this form, you consent to our <a href="/privacy-policy" className="text-blue-600 hover:underline">privacy practices</a>.
                 </p>
               </div>
             </div>
