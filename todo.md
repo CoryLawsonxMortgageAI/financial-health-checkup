@@ -17,3 +17,5 @@
 - [x] Add client's email field (separate from contact email)
 - [x] Add client's phone number field (separate from contact phone)
 - [x] Add yes/no question about HELOCs or liens on property
+- [x] Verify application is working with no errors
+- [x] Push code to GitHub repository
