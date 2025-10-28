@@ -562,10 +562,40 @@ export default function Home() {
               </div>
             </CardContent>
           </Card>
+
+          <div className="mt-8 text-center text-sm text-gray-600">
+            🔒 Your information is 100% secure and confidential. We respect your privacy.
+          </div>
         </form>
 
-        <div className="mt-8 text-center text-sm text-gray-500">
-          <p>🔒 Your information is 100% secure and confidential. We respect your privacy.</p>
+        {/* NMLS Compliance Footer */}
+        <div className="mt-8 bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+          <div className="text-center space-y-3">
+            <div className="text-sm font-semibold text-gray-900">
+              Cory Lawson, NMLS #891785
+            </div>
+            <div className="text-sm text-gray-700">
+              Producing Branch Manager | Geneva Financial, LLC
+            </div>
+            <div className="text-sm text-gray-600">
+              <div>M: <a href="tel:614-557-7503" className="text-blue-600 hover:underline">614-557-7503</a></div>
+              <div>E: <a href="mailto:clawson@genevafi.com" className="text-blue-600 hover:underline">clawson@genevafi.com</a> | <a href="https://www.genevafi.com" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">www.Genevafi.com</a></div>
+              <div className="mt-2">2029 Riverside Dr. Suite 200, Columbus, OH 43221</div>
+            </div>
+            <div className="text-xs text-gray-500 mt-4 pt-4 border-t border-gray-200">
+              <div className="font-semibold mb-2">Licensed in: Ohio, Florida, Michigan</div>
+              <div className="max-w-3xl mx-auto text-left space-y-2">
+                <p>
+                  Geneva Financial, LLC is an Equal Housing Opportunity lender. All loans are subject to underwriting approval and program availability. 
+                  This is not a commitment to lend or extend credit. Information and/or dates are subject to change without notice. 
+                  All borrowers must meet minimum credit and underwriting requirements.
+                </p>
+                <p>
+                  For licensing information, visit <a href="https://www.nmlsconsumeraccess.org" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">www.nmlsconsumeraccess.org</a>
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

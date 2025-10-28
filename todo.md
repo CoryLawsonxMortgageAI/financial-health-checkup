@@ -19,3 +19,4 @@
 - [x] Add yes/no question about HELOCs or liens on property
 - [x] Verify application is working with no errors
 - [x] Push code to GitHub repository
+- [x] Add NMLS compliance and licensing information footer for Cory Lawson
